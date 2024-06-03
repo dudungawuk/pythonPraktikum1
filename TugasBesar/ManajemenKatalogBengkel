@@ -1,0 +1,81 @@
+class Bengkel:
+    def __init__(self):
+        self.katalog = {}
+        self.transaksi = []
+
+    def tambah_katalog(self, nama_barang, harga):
+        self.katalog[nama_barang] = harga
+        print(f"{nama_barang} telah ditambahkan dengan harga {harga}.")
+
+    def hapus_katalog(self, nama_barang):
+        if nama_barang in self.katalog:
+            del self.katalog[nama_barang]
+            print(f"{nama_barang} telah dihapus dari katalog.")
+        else:
+            print(f"{nama_barang} tidak ditemukan di katalog.")
+
+    def tampilkan_katalog(self):
+        if self.katalog:
+            print("Katalog Bengkel (disusun berdasarkan nama barang):")
+            for nama_barang in sorted(self.katalog):
+                print(f"{nama_barang}: {self.katalog[nama_barang]}")
+        else:
+            print("Katalog kosong.")
+
+    def transaksi_baru(self, nama_barang, jumlah):
+        if nama_barang in self.katalog:
+            total_harga = self.katalog[nama_barang] * jumlah
+            if jumlah > 5:
+                total_harga *= 0.95 
+                print("Diskon 5% diterapkan.")
+            self.transaksi.append((nama_barang, jumlah, total_harga))
+            nama_pengguna = input("Masukkan nama untuk konfirmasi transaksi: ")
+            print(f"Transaksi berhasil: {jumlah} {nama_barang} dengan total harga {total_harga}.")
+            print(f"Transaksi atas nama: {nama_pengguna}")
+        else:
+            print(f"{nama_barang} tidak ditemukan di katalog.")
+
+    def tampilkan_transaksi(self):
+        if self.transaksi:
+            print("Daftar Transaksi:")
+            for i, (nama_barang, jumlah, total_harga) in enumerate(self.transaksi, start=1):
+                print(f"{i}. {nama_barang}: {jumlah} unit, Total Harga: {total_harga}")
+        else:
+            print("Belum ada transaksi.")
+
+def menu():
+    bengkel = Bengkel()
+    
+    while True:
+        print("\nMenu:")
+        print("1. Tambah katalog")
+        print("2. Hapus katalog")
+        print("3. Tampilkan katalog")
+        print("4. Tambah transaksi")
+        print("5. Tampilkan transaksi")
+        print("6. Keluar")
+        
+        pilihan = input("Pilih opsi (1-6): ")
+        
+        if pilihan == "1":
+            nama_barang = input("Masukkan nama barang: ")
+            harga = int(input("Masukkan harga barang: "))
+            bengkel.tambah_katalog(nama_barang, harga)
+        elif pilihan == "2":
+            nama_barang = input("Masukkan nama barang yang ingin dihapus: ")
+            bengkel.hapus_katalog(nama_barang)
+        elif pilihan == "3":
+            bengkel.tampilkan_katalog()
+        elif pilihan == "4":
+            nama_barang = input("Masukkan nama barang: ")
+            jumlah = int(input("Masukkan jumlah barang: "))
+            bengkel.transaksi_baru(nama_barang, jumlah)
+        elif pilihan == "5":
+            bengkel.tampilkan_transaksi()
+        elif pilihan == "6":
+            print("Terima kasih telah menggunakan program ini!")
+            break
+        else:
+            print("Pilihan tidak valid. Silakan pilih opsi yang tersedia.")
+
+menu()
